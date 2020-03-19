@@ -3,6 +3,11 @@ const express = require('express')
 const fetch = require('node-fetch')
 const btoa = require('btoa')
 
+const { prefix } = require('./config.json')              //config file with prefix
+
+//rxjs imports
+const Rx = require('rxjs')
+
 const Discord = require('discord.js')
 const client = new Discord.Client()
 
@@ -12,9 +17,35 @@ const app = express()
 
 //environment variables
 const PORT = process.env.PORT
-const GEN_TK = process.env.GEN_TK           //for discord
+const GEN_TK = process.env.GEN_TK                       //for discord
 const NEWS_TK = process.env.NEWS_TK        
 
-fetch('http://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=bf7a9cc16ae2430baed2be53a05156a7')
+let titleMap = new Map()
+
+fetch(`https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=${NEWS_TK}`)
     .then(res => res.json())
-    .then(json => console.log(json))
+    .then(json => {
+        let len = json.articles.length
+        let arr = json.articles
+        for(element of arr) {
+            titleMap.set(arr.indexOf(element), element.title)
+        }
+    })
+    
+client.once('ready', () => {
+    console.log('im ready')
+})
+
+client.on('message', msg => {
+    if(msg.content.startsWith(`${prefix}news list`)) {
+        msg.channel.send(`HELLO HERE IS YOUR DAILY NEWS...`)
+    }
+
+    if(!msg.content.startsWith(prefix) || msg.author.bot) return
+
+                
+    const args = msg.content.slice(prefix.length).split(' ')            //slicing the prefix off and splitting message string into an array by spaces
+    const command = args.shift().toLowerCase()                          //this is the command (should be news) that the user sent
+})
+
+client.login(GEN_TK)
