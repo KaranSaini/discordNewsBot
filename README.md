@@ -6,8 +6,6 @@ Discord news bot that will serve news which can be filtered by a variety of argu
     command: 'news'
     possible arguments: [
         search (keyword or phrase),     
-        lang,
-        exclude (exclude certain sources),
         top [
             category,
             country,
