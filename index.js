@@ -33,21 +33,30 @@ client.on('message', msg => {
     //regex used below is to match one or more spaces            
     const args = msg.content.slice(prefix.length).split(/ +/)           //slicing the prefix off and splitting by space
     const botName = args.shift().toLowerCase()                          //this removes the command from args array
-    console.log(botName)
-    console.log(args)
-    const command = args.shift()                                             //this will be THE COMMAND 
+    const command = args.shift()                                        //this will be THE COMMAND 
 
-    for(arg of args) {
-        if(!client.commands.has(command)) return
+    // for(arg of args) {
+    //     if(!client.commands.has(command)) return
 
-        try {
-            client.commands.get(command).execute(msg, args)            //here args is really the OPTIONS for the command
-        }
-        catch(error) {
-            console.error(error)
-            msg.reply('error occured')
-        }
+    //     try {
+    //         client.commands.get(command).execute(msg, args)            //here args is really the OPTIONS for the command
+    //     }
+    //     catch(error) {
+    //         console.error(error)
+    //         msg.reply('error occured')
+    //     }
+    // }
+
+    if(!client.commands.has(command)) return
+
+    try {
+        client.commands.get(command).execute(msg, args)            //here args is really the OPTIONS for the command
     }
+    catch(error) {
+        console.error(error)
+        msg.reply('error occured')
+    }
+
 
 })
 
