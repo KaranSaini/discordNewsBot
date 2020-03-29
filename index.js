@@ -35,18 +35,6 @@ client.on('message', msg => {
     const botName = args.shift().toLowerCase()                          //this removes the command from args array
     const command = args.shift()                                        //this will be THE COMMAND 
 
-    // for(arg of args) {
-    //     if(!client.commands.has(command)) return
-
-    //     try {
-    //         client.commands.get(command).execute(msg, args)            //here args is really the OPTIONS for the command
-    //     }
-    //     catch(error) {
-    //         console.error(error)
-    //         msg.reply('error occured')
-    //     }
-    // }
-
     if(!client.commands.has(command)) return
 
     try {
@@ -61,15 +49,3 @@ client.on('message', msg => {
 })
 
 client.login(GEN_TK)
-
-
-
-// fetch(`https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=${NEWS_TK}`)
-//     .then(res => res.json())
-//     .then(json => {
-//         let len = json.articles.length
-//         let arr = json.articles
-//         for(element of arr) {
-//             titleMap.set(arr.indexOf(element), element.title)
-//         }
-//     })

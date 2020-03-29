@@ -37,14 +37,8 @@ module.exports = {
                 .then(res => res.json())
                 .then(json => {
                     for(article of json.articles) {
-                        // let source = article.source
-                        // let author = article.author
-                        // let title = article.title
-                        // let description = article.description
-                        // let url = article.url
-                        // let image = article.image
-
-                        let { source, author, title, description, url, urlToImage, content } = article            //attempting destructuring
+                        //destructuring the article object
+                        let { source, author, title, description, url, urlToImage, content } = article
 
                         let articleEmbed = new Discord.MessageEmbed()
                             .setColor('#0099ff')
