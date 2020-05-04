@@ -28,6 +28,7 @@ client.once('ready', () => {
 })
 
 client.on('message', msg => {
+    //if message doesnt start with prefix or the message is from the bot -> do nothing
     if(!msg.content.startsWith(prefix) || msg.author.bot) return
 
     //regex used below is to match one or more spaces            

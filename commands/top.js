@@ -1,6 +1,10 @@
 const fetch = require('node-fetch')
 const Discord = require('discord.js')
 const NEWS_TK = process.env.NEWS_TK
+const countries = require('../options/countries')           //options of supported countries
+const NewsAPI = require('newsapi')
+
+const newsapi = new NewsAPI(NEWS_TK)
 
 /*
 
@@ -14,13 +18,18 @@ module.exports = {
     name: 'top',
     description: 'Get Top News',
     execute(message, args) {
-        
+        console.log(`the incoming messages is ${message}`)
+        console.log(`the incoming arguments are ${args}`)
 
-        console.log(`The first argument received by top command is ${args[0]}`)
         let url = `https://newsapi.org/v2/top-headlines?apiKey=${NEWS_TK}`
         let argLength = args.length
+        
+        let country = ''
 
-        let country = args[0]
+        countries.has(args[0]) ? country = args[0] : country = null
+
+        console.log(`the country is ${country}`)
+
         let category = args[1]
         let sources = args[2]
         let q = args[3]
