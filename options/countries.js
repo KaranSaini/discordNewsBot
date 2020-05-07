@@ -1,4 +1,5 @@
-module.exports = {
+
+let allowedCountries = {
     us: 'us',
     jp: 'jp',
     ru: 'ru',
@@ -9,3 +10,5 @@ module.exports = {
     fr: 'fr',
     any: ''
 }
+
+exports.allowedCountries = allowedCountries;
