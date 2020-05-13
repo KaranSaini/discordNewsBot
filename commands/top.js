@@ -11,66 +11,68 @@ const newsapi = new NewsAPI(NEWS_TK)
 /*
 The structure for this argument will be 
 
--news top [country] [category(optional)] [sources] [keyword]
+-news top [country] [category(COUNTRY REQUIRED)] [keyword(COUNTRY AND CATEGORY REQUIRED)]
+
+    DEFAULTS: The default country will be the US, the default category will be TECHNOLOGY
+
 */
 
 module.exports = {
     name: 'top',
     description: 'Get Top News',
     execute(message, args) {
-        // let url = `https://newsapi.org/v2/top-headlines?apiKey=${NEWS_TK}`
+         let url = `https://newsapi.org/v2/top-headlines?pageSize=5`
 
         let countryList = Object.keys(countries.allowedCountries)               //parsing the incoming args to find a valid country
-        
         let categoryList = Object.keys(categories.categories)
-
-        //sources
-        //queries
-
+        
         let country = ''
         let category = ''
-
+        let query = ''
+        
         args.forEach(el => {
-            country = countryList.find(element => {
-                if(element === el) {
-                    return element
-                } 
-                else {
-                    country = ''
-                }
-            })
-            category = categoryList.find(element => {
-                if(element === el) {
-                    return element
-                }
-            })
+            if(country == '') {                
+                country = countryList.find(element => element = el)
+            }
+            if(category == '') {      
+                category = categoryList.find(element => element = el)
+            }
+            if(args.indexOf(el) === 2) {
+                query = el
+            }
         })
 
-        console.log(`the country is ${country} and the category is ${category}`)
+        
+        country !== '' ? url += `&country=${country}` : url += `&country=us`
+        category !== '' ? url += `&category=${category}` : url = url
+        query !== '' ? url += `&q=${query}` : url = url
 
-        // if(args) {
-        //     fetch(url)
-        //         .then(res => res.json())
-        //         .then(json => {
-        //             for(article of json.articles) {
-        //                 //destructuring the article object
-        //                 let { source, author, title, description, url, urlToImage, content } = article
+        console.log(`the country is ${country}, the category is ${category} and the query is ${query}`)
+        console.log(`the current url looks like ${url}`)
 
-        //                 let articleEmbed = new Discord.MessageEmbed()
-        //                     .setColor('#0099ff')
-        //                     .setTitle(title)
-        //                     .setURL(url)
-        //                     .setDescription(description)
-        //                     .setImage(urlToImage)
+        if(args) {
+            fetch(url, { method: 'GET', headers: {'X-Api-Key': NEWS_TK} })
+                .then(res => res.json())
+                .then(json => {
+                    for(article of json.articles) {
+                        //destructuring the article object
+                        let { source, author, title, description, url, urlToImage, content } = article
+
+                        let articleEmbed = new Discord.MessageEmbed()
+                            .setColor('#0099ff')
+                            .setTitle(title)
+                            .setURL(url)
+                            .setDescription(description)
+                            .setImage(urlToImage)
                         
-        //                 console.log(articleEmbed.length)
-        //                 message.channel.send(articleEmbed)
-        //             }
+                        console.log(articleEmbed.length)
+                        message.channel.send(articleEmbed)
+                    }
 
-        //         })
-        // } else {
+                })
+        } else {
             
-        // }
+        }
 
 
     }

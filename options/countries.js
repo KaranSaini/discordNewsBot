@@ -8,7 +8,6 @@ let allowedCountries = {
     gb: 'gb',    
     hk: 'hk',
     fr: 'fr',
-    any: ''
 }
 
 exports.allowedCountries = allowedCountries;
