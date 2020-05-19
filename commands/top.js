@@ -9,12 +9,11 @@ const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(NEWS_TK)
 
 /*
-The structure for this argument will be 
+The structure for this argument will be
 
 -news top [country] [category(COUNTRY REQUIRED)] [keyword(COUNTRY AND CATEGORY REQUIRED)]
 
     DEFAULTS: The default country will be the US, the default category will be TECHNOLOGY
-
 */
 
 module.exports = {
@@ -25,16 +24,16 @@ module.exports = {
 
         let countryList = Object.keys(countries.allowedCountries)               //parsing the incoming args to find a valid country
         let categoryList = Object.keys(categories.categories)
-        
+
         let country = ''
         let category = ''
         let query = ''
-        
+
         args.forEach(el => {
-            if(country == '') {                
+            if(country == '') {
                 country = countryList.find(element => element = el)
             }
-            if(category == '') {      
+            if(category == '') {
                 category = categoryList.find(element => element = el)
             }
             if(args.indexOf(el) === 2) {
@@ -42,7 +41,7 @@ module.exports = {
             }
         })
 
-        
+
         country !== '' ? url += `&country=${country}` : url += `&country=us`
         category !== '' ? url += `&category=${category}` : url = url
         query !== '' ? url += `&q=${query}` : url = url
@@ -51,6 +50,7 @@ module.exports = {
         console.log(`the current url looks like ${url}`)
 
         if(args) {
+            var articlesToBeEmbed = []
             fetch(url, { method: 'GET', headers: {'X-Api-Key': NEWS_TK} })
                 .then(res => res.json())
                 .then(json => {
@@ -64,16 +64,24 @@ module.exports = {
                             .setURL(url)
                             .setDescription(description)
                             .setImage(urlToImage)
-                        
-                        console.log(articleEmbed.length)
-                        message.channel.send(articleEmbed)
+
+                        //console.log(articleEmbed.length)
+                        articlesToBeEmbed.push(articleEmbed)
                     }
 
+                    //TESTING THIS CODE ... WANT TO DELETE SENT ARTICLES AFTER SET TIME ... PERMISSIONS NEEDED
+                    articlesToBeEmbed.forEach(element => {
+                        message.channel.send(element)
+                            .then((message) => {
+                                setTimeout(() =>{
+                                    message.channel.delete(element)
+                                }, 2000)
+                            })
+                            .catch((error) => console.log(error))
+                    })
                 })
         } else {
-            
+            message.channel.send(`Please provide a correctly formatted query check the help page for guidance`)
         }
-
-
     }
 }

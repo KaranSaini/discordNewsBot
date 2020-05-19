@@ -1,8 +1,5 @@
 //setting up stuff here
-const fetch = require('node-fetch')
-const btoa = require('btoa')
 const fs = require('fs')
-const NewsAPI = require('newsapi')
 const { prefix } = require('./config.json')              //config file with prefix
 
 require('dotenv').config()
@@ -10,11 +7,18 @@ require('dotenv').config()
 const PORT = process.env.PORT
 const GEN_TK = process.env.GEN_TK                       //for discord
 const NEWS_TK = process.env.NEWS_TK        
-const newsapi = new NewsAPI(NEWS_TK)
 
 const Discord = require('discord.js')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
+const permissionFlags = [                              //setting necessary permissions
+    'ADD_REACTIONS', 
+    'SEND_MESSAGES',
+    'MANAGE_MESSAGES', 
+    'EMBED_LINKS'
+]
+const permissions = new Discord.Permissions(permissionFlags)
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))      //to get all available commands for the bot
 for(const file of commandFiles) {
     const command = require(`./commands/${file}`)          
@@ -22,8 +26,8 @@ for(const file of commandFiles) {
 }
 
 
-    
 client.once('ready', () => {
+    console.log(permissions.has('MANAGE_MESSAGES'))
     console.log('im ready')
 })
 

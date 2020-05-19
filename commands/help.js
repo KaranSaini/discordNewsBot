@@ -6,6 +6,8 @@ module.exports = {
             `The Bot accepts commands in the form of -news [command] [options]
                 COMMAND OPTIONS = top, search, help
                 OPTIONS for TOP = country, category, sources, search query
+
+                THIS BOT IS POWERED BY NEWSAPI.ORG
             `
         )
     }

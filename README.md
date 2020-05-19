@@ -13,3 +13,9 @@ Discord news bot that will serve news which can be filtered by a variety of argu
         ],
         help (help command that will give user info about the bot)
     ]
+
+# TODO / ISSUES TO WORK ON 
+    - Biggest Issue -- using NewApi.org so limited to 500 api calls a day ... need to come up with database solution
+
+    - Develop Search Command
+    - Develop Help Command
