@@ -20,7 +20,7 @@ module.exports = {
     name: 'top',
     description: 'Get Top News',
     execute(message, args) {
-         let url = `https://newsapi.org/v2/top-headlines?pageSize=5`
+        let url = `https://newsapi.org/v2/top-headlines?pageSize=5`
 
         let countryList = Object.keys(countries.allowedCountries)               //parsing the incoming args to find a valid country
         let categoryList = Object.keys(categories.categories)
@@ -64,22 +64,22 @@ module.exports = {
                             .setURL(url)
                             .setDescription(description)
                             .setImage(urlToImage)
-
-                        //console.log(articleEmbed.length)
                         articlesToBeEmbed.push(articleEmbed)
                     }
 
-                    //TESTING THIS CODE ... WANT TO DELETE SENT ARTICLES AFTER SET TIME ... PERMISSIONS NEEDED
+                    //SENDS ARTICLE EMBEDS THEN DELETES THEM AFTER SET PERIOD OF TIME..CURRENTLY TWO MINS
                     articlesToBeEmbed.forEach(element => {
                         message.channel.send(element)
-                            .then((message) => {
-                                setTimeout(() =>{
-                                    message.channel.delete(element)
-                                }, 2000)
-                            })
-                            .catch((error) => console.log(error))
+                        .then((message) => {
+                            setTimeout(() => {
+                                // console.log(`${message.delete()}`)
+                                message.delete();
+                            }, 120000)
+                        })
+                        .catch(console.error)
                     })
                 })
+                .catch(console.error)
         } else {
             message.channel.send(`Please provide a correctly formatted query check the help page for guidance`)
         }

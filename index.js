@@ -4,20 +4,12 @@ const { prefix } = require('./config.json')              //config file with pref
 
 require('dotenv').config()
 //environment variable refs
-const PORT = process.env.PORT
 const GEN_TK = process.env.GEN_TK                       //for discord
 const NEWS_TK = process.env.NEWS_TK        
 
 const Discord = require('discord.js')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
-const permissionFlags = [                              //setting necessary permissions
-    'ADD_REACTIONS', 
-    'SEND_MESSAGES',
-    'MANAGE_MESSAGES', 
-    'EMBED_LINKS'
-]
-const permissions = new Discord.Permissions(permissionFlags)
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))      //to get all available commands for the bot
 for(const file of commandFiles) {
@@ -27,7 +19,7 @@ for(const file of commandFiles) {
 
 
 client.once('ready', () => {
-    console.log(permissions.has('MANAGE_MESSAGES'))
+    // console.log(permissions.has('MANAGE_MESSAGES'))
     console.log('im ready')
 })
 
